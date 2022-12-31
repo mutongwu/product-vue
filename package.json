@@ -13,12 +13,10 @@
   "license": "ISC",
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "last 2 versions"
   ],
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "swiper": "^8.4.5",
     "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.12"
   },

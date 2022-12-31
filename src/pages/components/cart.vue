@@ -14,10 +14,18 @@
 
 <script>
 export default {
-  props: {
-    total: {
-      type: Number,
-      default: 10
+  data() {
+    return {
+      total: 0
+    }
+  },
+  methods: {
+    /**
+     * @public add food item
+     * @param {Object} item 
+     */
+    addFood(item) {
+      this.total += item.price;
     }
   }
 }
@@ -55,6 +63,7 @@ export default {
         font-size: 20px;
         position: relative;
         top: 20px;
+        margin-left: 6px;
       }
     }
     .pay-button {

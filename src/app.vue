@@ -6,7 +6,7 @@
 
 <script>
 import throttle from 'lodash-es/throttle';
-import ProductPage from './pages/product.vue';
+import ProductPage from './pages/index.vue';
 export default {
   components: {
     ProductPage,

@@ -32,8 +32,12 @@ export default {
   mounted() {
   },
   methods: {
-    addFood(key) {
-      this.food[key] = true;
+    /**
+     * @public add food item
+     * @param {Object} item 
+     */
+    addFood(item) {
+      this.food[item.type] = true;
     }
   }
 }
@@ -43,7 +47,7 @@ export default {
 .plate {
   position: relative;
   height: 200px;
-  background: url(../assets/img/plate.png) 50% 65% no-repeat;
+  background: url(@/assets/img/plate.png) 50% 65% no-repeat;
   background-size: 260px auto;
   &__bd {
     position: absolute;
@@ -61,7 +65,7 @@ export default {
       left: 240px;
       width: 128px;
       height: 128px;
-      background: url(../assets/img/coffee.png) 50% 50% no-repeat;
+      background: url(@/assets/img/coffee.png) 50% 50% no-repeat;
       background-size: contain;
     }
     &.fries {
@@ -69,7 +73,7 @@ export default {
       left: 250px;
       width: 94px;
       height: 94px;
-      background: url(../assets/img/fries.png) 50% 50% no-repeat;
+      background: url(@/assets/img/fries.png) 50% 50% no-repeat;
       background-size: contain;
     }
     &.burger {
@@ -84,14 +88,14 @@ export default {
         margin: auto;
         width: 76px;
         height: 63px;
-        background: url(../assets/img/burger-up.png) 50% 50% no-repeat;
+        background: url(@/assets/img/burger-up.png) 50% 50% no-repeat;
         background-size: contain;
       }
       .bottom {
         top: -8px;
         width: 100%;
         height: 100%;
-        background-image: url(../assets/img/burger-bottom.png);
+        background-image: url(@/assets/img/burger-bottom.png);
       }
     }
   }
@@ -103,8 +107,10 @@ export default {
     }
   }
   &.add-burger {
-    .coffee {
-      transform: translateX(10px);
+    &.add-coffee {
+      .coffee {
+        transform: translateX(10px);
+      }
     }
     .burger {
       transform: scale(1);
@@ -113,18 +119,16 @@ export default {
     }
   }
   &.add-fries {
-    .item {
-      &.coffee {
-        transform: translateX(0px);
-      }
-      &.burger {
-        transform: translateX(-10px);
-      }
-      &.fries {
-        transform: scale(1);
-        top: 28px;
-        left: 170px;
-      }
+    &.add-coffee .coffee {
+      transform: translateX(0px);
+    }
+    &.add-burger .burger {
+      transform: translateX(-10px);
+    }
+    .fries {
+      transform: scale(1);
+      top: 28px;
+      left: 170px;
     }
   }
 }
