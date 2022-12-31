@@ -10,7 +10,7 @@ module.exports = function () {
       publicPath: '/',
     },
     devServer: {
-      port: 54473,
+      port: 3000,
       historyApiFallback: true,
       // 开发代理
       proxy: {
