@@ -15,6 +15,7 @@
    1. use transform rather than the left/top for better performation.
    2. css variable with touchmove should be the right solution, which I use it with star animation.
    3. There are still many works when each slide changed with food animtion, but I don't have enough time to finish it.
+4. I wrote the food swiper component, it's simple, yet not fully tested with devices. But it's much light weight compared to 3rd lib like Swiper.js.
    
 ## problem
 1. It seems that figma design is not well organized, for many icons could not be exported with proper size.
