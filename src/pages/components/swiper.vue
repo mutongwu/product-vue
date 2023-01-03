@@ -167,6 +167,7 @@ export default {
       };
       const onTouchStart = (e) => {
         const evt = TouchEvent.getEvent(e);
+        this.activeTransition = 'transform';
         box.addEventListener(TouchEvent.events[1], this.onMoveFn, false);
         box.addEventListener(TouchEvent.events[2], onTouchEnd, false);
       };
@@ -194,24 +195,17 @@ export default {
         this.originIdx = this.current - 1;
         if (this.current === 0) {
           this.originIdx = this.list.length - 1;
+          this.activeTransition = 'none';
           this.$nextTick(() => {
-            this.activeTransition = 'none';
             this.current += this.list.length;
             this.distance = this.current * this.itemWidth * -1;
-            // restore transition
-            setTimeout(() => {
-              this.activeTransition = 'transform';
-            })
           })
         } else if (this.current === this.food.length - 1){
           this.originIdx = 0;
+          this.activeTransition = 'none';
           this.$nextTick(() => {
-            this.activeTransition = 'none';
             this.current -= this.list.length;
             this.distance = this.current * this.itemWidth * -1;
-            setTimeout(() => {
-              this.activeTransition = 'transform';
-            })
           })
         }
       }
