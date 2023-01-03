@@ -4,7 +4,7 @@
     <div
       ref="swiperBox"
       class="swiper__bd"
-      :style="`transform: translateX(${boxTranslate}px)`"
+      :style="`transition-property:${activeTransition}; transform: translateX(${boxTranslate}px)`"
     >
       <div
         v-for="(item) in food"
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import TouchEvent from '@/utils/touch';
 export default {
   props: {
     list: {
@@ -76,6 +77,7 @@ export default {
       itemWidth: 0,
       minMoved: 0,
       moved: 0,
+      activeTransition: 'transform'
     }
   },
   computed: {
@@ -159,32 +161,32 @@ export default {
       const box = this.$refs.swiperBox;
       this.onMoveFn = this.onTouchMove;
       const onTouchEnd = (e) => {
-        box.removeEventListener('touchmove', this.onMoveFn);
-        box.removeEventListener('touchend', onTouchEnd);
+        box.removeEventListener(TouchEvent.events[1], this.onMoveFn);
+        box.removeEventListener(TouchEvent.events[2], onTouchEnd);
         this.onTouchEnd(e);
       };
       const onTouchStart = (e) => {
-        const evt = e.changedTouches[0];
-        box.addEventListener('touchmove', this.onMoveFn, false);
-        box.addEventListener('touchend', onTouchEnd, false);
+        const evt = TouchEvent.getEvent(e);
+        box.addEventListener(TouchEvent.events[1], this.onMoveFn, false);
+        box.addEventListener(TouchEvent.events[2], onTouchEnd, false);
       };
       // bind event
-      box.addEventListener('touchstart', onTouchStart, false);
+      box.addEventListener(TouchEvent.events[0], onTouchStart, false);
       // remove event listener
       this.$once('hook:beforeDestroy', () => {
-        box.removeEventListener('touchstart', onTouchStart);
+        box.removeEventListener(TouchEvent.events[0], onTouchStart);
       });
     },
     onTouchMove(e) {
       e.preventDefault();
-      const evt = e.changedTouches[0];
+      const evt = TouchEvent.getEvent(e);
       if (!this.startX) {
         this.startX = evt.pageX;
       } else {
         this.moved = evt.pageX - this.startX;
       }
     },
-    onTouchEnd(e) {
+    onTouchEnd() {
       // moved distance will been actived when larger than minMoved
       if (Math.abs(this.moved) >= this.minMoved) {
         this.current += (this.moved > 0 ? -1 : 1);
@@ -193,14 +195,23 @@ export default {
         if (this.current === 0) {
           this.originIdx = this.list.length - 1;
           this.$nextTick(() => {
+            this.activeTransition = 'none';
             this.current += this.list.length;
             this.distance = this.current * this.itemWidth * -1;
+            // restore transition
+            setTimeout(() => {
+              this.activeTransition = 'transform';
+            })
           })
         } else if (this.current === this.food.length - 1){
           this.originIdx = 0;
           this.$nextTick(() => {
+            this.activeTransition = 'none';
             this.current -= this.list.length;
             this.distance = this.current * this.itemWidth * -1;
+            setTimeout(() => {
+              this.activeTransition = 'transform';
+            })
           })
         }
       }
@@ -236,6 +247,7 @@ export default {
     flex-direction: row;
     position: relative;
     height: 100%;
+    transition: transform 250ms ease;
     .item {
       position: relative;
       width: 100%;
